@@ -17,5 +17,17 @@ module Rnba
       puts "v#{Rnba::VERSION}"
     end
     map %w(--version -v) => :version
+
+    desc 'today', 'Command description...'
+    method_option :help, aliases: '-h', type: :boolean,
+                         desc: 'Display usage information'
+    def today(*)
+      if options[:help]
+        invoke :help, ['today']
+      else
+        require_relative 'commands/today'
+        Rnba::Commands::Today.new(options).execute
+      end
+    end
   end
 end
