@@ -2,8 +2,19 @@ class Match
     BASKETBALL = "\u{1F3C0}"
 
     def initialize(hash)
+        @hash = hash
         @visitor = TeamMatch.new(hash['visitor'])
         @home = TeamMatch.new(hash['home'])
+    end
+
+    def status
+        @hash['period_time']['game_status']
+    end
+
+    def status_as_string
+        return "Not yet started" if status == 1 
+        return "Started" if status == 2
+        return "Finished"
     end
 
     def visitor
@@ -31,7 +42,7 @@ class Match
     end
 
     def to_row
-        [visitor, visitor_score, home, home_score]
+        [visitor, visitor_score, home, home_score, status_as_string]
     end
 end
 
