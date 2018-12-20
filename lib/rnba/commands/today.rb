@@ -15,7 +15,7 @@ module Rnba
 
       def execute(input: $stdin, output: $stdout)
         basketball = "\u{1F3C0}"
-        table = TTY::Table.new header: ['Away', 'Score', 'Home', 'Score', 'Status', 'Time']
+        table = TTY::Table.new header: ['Away', 'Score', 'Home', 'Score', 'Time']
         table.render do |renderer|
           renderer.border.separator = :each_row
         end

@@ -51,7 +51,7 @@ class Match
     end
 
     def to_row
-        [visitor, visitor_score, home, home_score, status_as_string, time_remaining]
+        [visitor, visitor_score, home, home_score, time_remaining]
     end
 end
 
