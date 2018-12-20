@@ -8,13 +8,22 @@ class Match
     end
 
     def status
-        @hash['period_time']['game_status']
+        period_time['game_status'].to_i
     end
 
     def status_as_string
         return "Not yet started" if status == 1 
         return "Started" if status == 2
         return "Finished"
+    end
+
+    def time_remaining
+        return "Finished" if status == 3
+        return "#{period_time['period_name']}#{period_time['period_value']}  #{period_time['game_clock']}"
+    end
+
+    def period_time
+        @hash['period_time']
     end
 
     def visitor
@@ -42,7 +51,7 @@ class Match
     end
 
     def to_row
-        [visitor, visitor_score, home, home_score, status_as_string]
+        [visitor, visitor_score, home, home_score, status_as_string, time_remaining]
     end
 end
 
