@@ -1,6 +1,10 @@
 # frozen_string_literal: true
 
 require_relative '../command'
+require_relative '../models/match'
+require 'tty-table'
+require 'nba_api_wrapper'
+require 'tzinfo'
 
 module Rnba
   module Commands
@@ -10,8 +14,20 @@ module Rnba
       end
 
       def execute(input: $stdin, output: $stdout)
-        # Command logic goes here ...
-        output.puts "OK"
+        basketball = "\u{1F3C0}"
+        table = TTY::Table.new header: ['Away', 'Score', 'Home', 'Score']
+
+
+        tz = TZInfo::Timezone.get('US/Pacific')
+        today = Time.now.getlocal(tz.current_period.offset.utc_total_offset).strftime('%Y%m%d')
+        # today = '20181219'
+        games = NBA::Game.get_games(today)['sports_content']['games']['game']
+        games.each do |game|
+          match = Match.new(game)
+          table << match.to_row
+        end
+
+        output.puts table.render(:unicode)
       end
     end
   end
