@@ -8,12 +8,14 @@ require 'tzinfo'
 
 module Rnba
   module Commands
-    class Today < Rnba::Command
-      def initialize(options)
+    class Game < Rnba::Command
+      def initialize(team='', options)
+        @team = team
         @options = options
       end
 
       def execute(input: $stdin, output: $stdout)
+        
         table = TTY::Table.new header: ['Away', 'Score', 'Home', 'Score', 'Time']
         table.render do |renderer|
           renderer.border.separator = :each_row
@@ -29,8 +31,9 @@ module Rnba
           table << match.to_row
         end
 
-        output.puts table.render(:unicode, width: 80, padding: [1,2,1,2], resize: true)
+        output.puts table.render(:unicode, width: 80, padding: [1,2,1,2], resize: true)      
       end
     end
   end
 end
+

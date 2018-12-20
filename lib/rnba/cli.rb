@@ -18,6 +18,18 @@ module Rnba
     end
     map %w(--version -v) => :version
 
+    desc 'game', 'Command description...'
+    method_option :help, aliases: '-h', type: :boolean,
+                         desc: 'Display usage information'
+    def game(*team)
+      if options[:help]
+        invoke :help, ['game']
+      else
+        require_relative 'commands/game'
+        Rnba::Commands::Game.new(team, options).execute
+      end
+    end
+
     desc 'today', 'Command description...'
     method_option :help, aliases: '-h', type: :boolean,
                          desc: 'Display usage information'
