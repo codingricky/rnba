@@ -4,7 +4,7 @@ PATH
     rnba (0.1.0)
       geocoder
       json (= 1.8.6)
-      nba_api_wrapper
+      nba_api_wrapper (= 0.2.3)
       pastel (~> 0.7.2)
       thor (~> 0.20.0)
       timezone
@@ -49,7 +49,7 @@ GEM
     http_parser.rb (0.6.0)
     json (1.8.6)
     kramdown (1.16.2)
-    nba_api_wrapper (0.2.4)
+    nba_api_wrapper (0.2.3)
       http (~> 1.0.2, >= 1.0)
       json (~> 1.8.1, >= 1.8.1)
     necromancer (0.4.0)

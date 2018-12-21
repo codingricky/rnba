@@ -56,7 +56,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "pastel", "~> 0.7.2"
   spec.add_dependency "thor", "~> 0.20.0"
   spec.add_dependency "tzinfo"
-  spec.add_dependency "nba_api_wrapper"
+  spec.add_dependency "nba_api_wrapper", "0.2.3"
   spec.add_dependency "geocoder"
   spec.add_dependency "json", "1.8.6"
   spec.add_dependency "timezone"

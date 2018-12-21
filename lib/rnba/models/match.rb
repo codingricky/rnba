@@ -3,7 +3,7 @@ require 'geocoder'
 require 'timezone_finder'
 
 class Match
-    BASKETBALL = 'u{1F3C0}'
+    BASKETBALL = "\u{1F3C0}"
 
     def initialize(hash)
         @hash = hash
@@ -28,24 +28,26 @@ class Match
     end
 
     def time_remaining
-        return date_time.to_s if not_yet_started?
-        return "Finished" if started?
+        return "starting at " + formatted_start_time if not_yet_started?
+        return "Finished" if finished?
+        return "Halftime" if halftime?
         return "#{period_time['period_name']}#{period_time['period_value']}  #{period_time['game_clock']}"
     end
 
     def date_time
-        dt = DateTime.parse("#{date}#{time}", timezone)
-        puts timezone
-        dt
+        DateTime.parse("#{date}#{time}", timezone)
+    end
+
+    def formatted_start_time
+      date_time_without_tz.strftime('%F %T')
+    end
+
+    def date_time_without_tz
+      DateTime.parse("#{date}#{time}")
     end
 
     def time_in_local_timezone
         date_time.to_s
-    end
-
-
-    def period_time
-        @hash['period_time']
     end
 
     def visitor
@@ -53,7 +55,7 @@ class Match
     end
 
     def visitor_score
-        @visitor.score
+        @visitor.score.to_i
     end
 
     def home
@@ -61,7 +63,7 @@ class Match
     end
 
     def home_score
-        @home.score
+        @home.score.to_i
     end
 
     def visitor_win?
@@ -94,9 +96,16 @@ class Match
         status == 2
     end
 
+    def finished?
+        status == 3
+    end
 
     def not_yet_started?
         status == 1
+    end
+
+    def halftime?
+        period_time['period_status'] == 'Halftime'
     end
 end
 
@@ -106,10 +115,12 @@ class TeamMatch
     end
 
     def score
-        @hash['score']
+        @hash['score'].to_i
     end
 
-    def abbreviation
-        @hash['abbreviation']
+    def method_missing(m, *args, &block)
+        return @hash[m.to_s] if @hash.has_key?(m.to_s)
+
+        raise ArgumentError.new("Method `#{m}` doesn't exist.")
     end
 end
